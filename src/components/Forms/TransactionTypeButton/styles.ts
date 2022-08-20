@@ -15,7 +15,7 @@ export const Container = styled(TouchableOpacity) <TransactionProps>`
   align-items: center;
   justify-content: center;
 
-  border: 1.5px solid ${({ theme }) => theme.colors.text_light};
+  border: 1.5px solid ${({ theme }) => theme.colors.border_color};
   border-radius: 5px;
   padding: 16px;
 
