@@ -1,10 +1,16 @@
 import React from 'react';
 import { HighLightCard } from '../../components/HighlightCard';
+import { Transaction, TransactionCard } from '../../components/TransactionCard';
 
 import {
   Container,
-  Header, HighLightCards, Icon,
+  Header,
+  HighLightCards,
+  Icon,
   Photo,
+  Title,
+  TransactionList,
+  Transactions,
   User,
   UserGreeting,
   UserInfo,
@@ -12,7 +18,47 @@ import {
   UserWrapper
 } from './styles';
 
+export interface TransactionListProps extends Transaction {
+  id: string;
+}
+
 export function Dashboard() {
+  const data: TransactionListProps[] = [
+    {
+      id: '1',
+      type: 'positive',
+      title: "Desenvolvimento de site",
+      amount: "R$ 12.000,00",
+      category: {
+        name: 'Vendas',
+        icon: 'dollar-sign'
+      },
+      date: "13/04/2022",
+    },
+    {
+      id: '2',
+      type: 'negative',
+      title: "Hambuergueria Pizzy",
+      amount: "R$ 59,00",
+      category: {
+        name: 'Alimentação',
+        icon: 'coffee'
+      },
+      date: "10/04/2022",
+    },
+    {
+      id: '3',
+      type: 'negative',
+      title: "Aluguel do apartamento",
+      amount: "R$ 1.200,00",
+      category: {
+        name: 'Casa',
+        icon: 'home'
+      },
+      date: "10/04/2022",
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -55,6 +101,16 @@ export function Dashboard() {
         />
 
       </HighLightCards>
+
+      <Transactions>
+        <Title>Listagem</Title>
+
+        <TransactionList
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <TransactionCard transaction={item} />}
+        />
+      </Transactions>
     </Container>
   )
 }

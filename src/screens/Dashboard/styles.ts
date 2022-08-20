@@ -1,8 +1,10 @@
 import { Feather } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { FlatList, FlatListProps } from 'react-native';
+import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 import styled from 'styled-components/native';
+import { TransactionListProps } from '.';
 
 
 export const Container = styled.View`
@@ -64,10 +66,32 @@ export const Icon = styled(Feather)`
 
 export const HighLightCards = styled.ScrollView.attrs({
   horizontal: true,
-  showHorizontalScrollIndicator: false,
-  contentContainerStyle: {paddingLeft: 24, paddingRight: 8}
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingLeft: 24, paddingRight: 8 }
 })`
   width: 100%;
   position: absolute;
   margin-top: ${RFPercentage(20)}px;
 `;
+
+export const Transactions = styled.View`
+  flex: 1;
+  padding: 0 24px;
+
+  margin-top: ${RFPercentage(12)}px;
+`;
+
+
+export const Title = styled.Text`
+  font-size: ${RFValue(18)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const TransactionList = styled(
+  FlatList as new (props: FlatListProps<TransactionListProps>) => FlatList<TransactionListProps>)
+  .attrs({
+    showsVerticalScrollIndicator: false,
+    contentContainerStyle: {
+      paddingBottom: getBottomSpace()
+    }
+  })``;
