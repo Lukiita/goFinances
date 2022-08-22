@@ -9,7 +9,7 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
-import { Dashboard } from './src/screens/Dashboard';
+import { Register } from './src/screens/Register';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -40,7 +40,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <View onLayout={onLayoutRootView}>
       </View>
-        <Dashboard />
+        <Register />
     </ThemeProvider>
   );
 }

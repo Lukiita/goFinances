@@ -88,10 +88,10 @@ export const Title = styled.Text`
 `;
 
 export const TransactionList = styled(
-  FlatList as new (props: FlatListProps<TransactionListProps>) => FlatList<TransactionListProps>)
-  .attrs({
-    showsVerticalScrollIndicator: false,
-    contentContainerStyle: {
-      paddingBottom: getBottomSpace()
-    }
-  })``;
+  FlatList as new (props: FlatListProps<TransactionListProps>) => FlatList<TransactionListProps>
+).attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingBottom: getBottomSpace()
+  }
+})``;
