@@ -1,6 +1,8 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { CategorySelectButton } from '../../components/Forms/CategorySelectButton';
 import { ControlledInput } from '../../components/Forms/ControlledInput';
@@ -8,11 +10,21 @@ import { TransactionTypeButton } from '../../components/Forms/TransactionTypeBut
 import { Header } from '../../components/Header';
 import { Category, CategorySelect } from '../CategorySelect';
 import { Container, Fields, Form, TransactionTypes } from './styles';
-
 interface FormData {
   name: string;
   amount: string;
 }
+
+const schema = Yup.object().shape({
+  name: Yup
+    .string()
+    .required('Nome é obrigatório'),
+  amount: Yup
+    .number()
+    .typeError('Informe um valor numérico')
+    .positive('O valor não pode ser negativo')
+    .required('Valor é obrigatório')
+});
 
 const CATEGORY: Category = {
   key: 'category',
@@ -27,8 +39,11 @@ export function Register() {
 
   const {
     control,
-    handleSubmit
-  } = useForm<FormData>();
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  });
 
   function handleTransactionTypeSelect(type: 'up' | 'down') {
     setTransactionType(type);
@@ -43,6 +58,12 @@ export function Register() {
   }
 
   function handleRegister(form: FormData) {
+    if (!transactionType)
+      return Alert.alert('Atenção', 'Selecione o tipo da transação');
+
+    if (category.key === CATEGORY.key)
+      return Alert.alert('Atenção', 'Selecione a categoria');
+
     const data = {
       name: form.name,
       amount: form.amount,
@@ -66,6 +87,7 @@ export function Register() {
               placeholder='Nome'
               autoCapitalize="sentences"
               autoCorrect={false}
+              error={errors.name}
             />
 
             <ControlledInput
@@ -73,6 +95,7 @@ export function Register() {
               control={control}
               placeholder='Valor'
               keyboardType="numeric"
+              error={errors.amount}
             />
 
             <TransactionTypes>
