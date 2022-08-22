@@ -28,7 +28,7 @@ export function Register() {
   const {
     control,
     handleSubmit
-  } = useForm();
+  } = useForm<FormData>();
 
   function handleTransactionTypeSelect(type: 'up' | 'down') {
     setTransactionType(type);
@@ -49,7 +49,7 @@ export function Register() {
       transactionType,
       category: category.key
     }
-    console.log(data);
+    console.log(form);
   }
 
   return (

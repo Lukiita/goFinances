@@ -6,8 +6,7 @@ import {
   Container,
   Header,
   HighLightCards,
-  Icon,
-  Photo,
+  Icon, LogoutButton, Photo,
   Title,
   TransactionList,
   Transactions,
@@ -73,7 +72,10 @@ export function Dashboard() {
             </User>
           </UserInfo>
 
-          <Icon name='power' />
+          <LogoutButton onPress={() => {}}>
+
+            <Icon name='power' />
+          </LogoutButton>
         </UserWrapper>
 
       </Header>
