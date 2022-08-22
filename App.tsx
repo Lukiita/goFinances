@@ -4,12 +4,13 @@ import {
   Poppins_700Bold,
   useFonts
 } from '@expo-google-fonts/poppins';
+import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
-import { Register } from './src/screens/Register';
+import { AppRoutes } from './src/routes/app.routes';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -38,9 +39,17 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <View onLayout={onLayoutRootView}>
+      <NavigationContainer>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        <AppRoutes/>
       </View>
-        <Register />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
