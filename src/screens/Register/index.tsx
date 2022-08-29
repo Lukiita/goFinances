@@ -1,15 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import uuid from 'react-native-uuid';
 import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { CategorySelectButton } from '../../components/Forms/CategorySelectButton';
 import { ControlledInput } from '../../components/Forms/ControlledInput';
 import { TransactionTypeButton } from '../../components/Forms/TransactionTypeButton';
 import { Header } from '../../components/Header';
+import { STORAGE_KEYS } from '../../helpers/storage-keys.helper';
 import { Category, CategorySelect } from '../CategorySelect';
 import { Container, Fields, Form, TransactionTypes } from './styles';
+
 interface FormData {
   name: string;
   amount: string;
@@ -40,6 +44,7 @@ export function Register() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(schema)
@@ -57,20 +62,35 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData) {
+  async function handleRegister(form: FormData) {
     if (!transactionType)
       return Alert.alert('Atenção', 'Selecione o tipo da transação');
 
     if (category.key === CATEGORY.key)
       return Alert.alert('Atenção', 'Selecione a categoria');
 
-    const data = {
+    const newTransaction = {
+      id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
       transactionType,
-      category: category.key
+      category: category.key,
+      date: new Date()
     }
-    console.log(form);
+    
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.transactions);
+      const currentData: any[] = data ? JSON.parse(data) : [];
+      currentData.push(newTransaction);
+      await AsyncStorage.setItem(STORAGE_KEYS.transactions, JSON.stringify(currentData));
+      
+      reset();
+      setTransactionType('');
+      setCategory(CATEGORY);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro ao cadastrar transação. Por favor tente novamente.');
+    }
   }
 
   return (

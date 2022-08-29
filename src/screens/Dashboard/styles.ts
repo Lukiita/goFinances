@@ -98,3 +98,14 @@ export const TransactionList = styled(
     paddingBottom: getBottomSpace()
   }
 })``;
+
+export const LoaderContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Loader = styled.ActivityIndicator.attrs(({ theme}) => ({
+  size: 'large',
+  color: theme.colors.primary 
+}))``;

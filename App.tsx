@@ -12,6 +12,13 @@ import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
 import { AppRoutes } from './src/routes/app.routes';
 
+import { setDefaultOptions } from 'date-fns';
+import ptBr from 'date-fns/locale/pt-BR';
+setDefaultOptions({ locale: ptBr });
+
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
